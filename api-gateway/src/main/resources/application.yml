@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: gateway
+
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: msOneModule
+          uri: lb://ms-one/
+          #http://localhost:9080/
+          predicates:
+            - Path=/api/**
+        - id: msTwoModule
+          uri: lb://ms-two/
+          predicates:
+            - Path=/api/**
+    consul:
+      discovery:
+        register: true
+      host: ${CONSUL_HOST:localhost}
+      port: ${CONSUL_PORT:8500}
+
+server:
+  port: 8080
